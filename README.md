@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 👰‍♀️🤵 Vow & Veil
 
-## Getting Started
+**Vow & Veil** is a modern e-commerce website dedicated to wedding fashion for couples. It offers coordinated wedding outfits, solo dresses or suits for the bride and groom, as well as a curated selection of accessories like rings, jewelry, and veils.
 
-First, run the development server:
+Built using the **Next.js App Router**, powered by **MongoDB**, and enhanced with **GSAP animations**, this project focuses on elegant UI, smooth user experience, and scalable backend architecture.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🛍️ Shop Couple Sets, Solo Dresses (Bride/Groom), and Accessories  
+- 🎥 Smooth page animations with **GSAP**  
+- 🗂️ Category-based filtering  
+- 🛒 Add to Cart / Wishlist (planned with Redux Toolkit)  
+- 🔐 User Authentication (NextAuth or Firebase - optional)  
+- 🧾 Order history and checkout system  
+- ⚙️ Admin panel for managing products and orders (upcoming)  
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🧰 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Layer           | Technology         |
+|----------------|--------------------|
+| Framework       | [Next.js (App Router)](https://nextjs.org/) |
+| Styling         | [Tailwind CSS](https://tailwindcss.com/)    |
+| Animations      | [GSAP](https://greensock.com/gsap/)         |
+| Database        | [MongoDB](https://www.mongodb.com/) + Mongoose |
+| State Management| [Redux Toolkit](https://redux-toolkit.js.org/) *(optional)* |
+| Auth (optional) | [NextAuth.js](https://next-auth.js.org/) / Firebase |
+| Deployment      | [Vercel](https://vercel.com/)               |
 
-## Learn More
+## 🧪 Local Development
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/vow-and-veil.git
+   cd vow-and-veil
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2.	**Install dependencies:**
+    npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3.	**Configure environment variables:**
+    Create a .env.local file in the root directory:
+    MONGODB_URI=your_mongodb_connection_string
 
-## Deploy on Vercel
+4.	**Run the development server:**
+    npm run dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5.	**Open http://localhost:3000 in your browser.**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🛣️ Roadmap
+	•	Project Setup with Next.js + Tailwind + GSAP
+	•	MongoDB integration with Mongoose
+	•	Product and Category Models
+	•	Shop and Product Pages
+	•	Cart & Checkout Flow
+	•	Wishlist & Redux Toolkit Setup
+	•	Admin Dashboard
+	•	Authentication
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+## 💌 Credits
+
+Crafted with ❤️ for couples who vow in style.
