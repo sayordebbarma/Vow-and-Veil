@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import Section from './section';
 import QuickLinks from './catalog';
 import FeaturedProducts from './FeaturedProducts';
+import CoupleStories from './CoupleStories';
 
 export default function Home() {
 
@@ -43,6 +44,7 @@ export default function Home() {
     </section>
     <QuickLinks />
     <FeaturedProducts />
+    <CoupleStories />
     {/* <Section /> */}
     </div>
   );
