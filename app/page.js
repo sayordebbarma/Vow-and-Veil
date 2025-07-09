@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Section from './section';
+import QuickLinks from './catalog';
 
 export default function Home() {
 
@@ -39,7 +40,8 @@ export default function Home() {
         <button className='text-4xl italic underline'>Explore Collections</button>
       </div>
     </section>
-    <Section />
+    <QuickLinks />
+    {/* <Section /> */}
     </div>
   );
 }

@@ -18,7 +18,7 @@ export default function Section() {
   }, [])
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-amber-100">
+    <section className="relative h-screen w-full overflow-hidden">
       <div
         ref={contentRef}
         className='absolute bottom-10 right-10 z-10 text-white text-right'
