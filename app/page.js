@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Section from './section';
 import QuickLinks from './catalog';
+import FeaturedProducts from './FeaturedProducts';
 
 export default function Home() {
 
@@ -41,6 +42,7 @@ export default function Home() {
       </div>
     </section>
     <QuickLinks />
+    <FeaturedProducts />
     {/* <Section /> */}
     </div>
   );
