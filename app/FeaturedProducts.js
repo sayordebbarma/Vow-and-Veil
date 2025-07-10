@@ -2,32 +2,14 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-
-const featuredProducts = [
-  {
-    title: 'Ivory Lace Couple Ensemble',
-    category: 'Couple Sets',
-    price: '₹12,999',
-    image: '/products/couple1.jpg',
-    href: '/collections/couple1',
-  },
-  {
-    title: 'Minimalist Bride Gown',
-    category: 'Bride Dresses',
-    price: '₹8,499',
-    image: '/products/couple2.jpg',
-    href: '/collections/couple2',
-  },
-  {
-    title: 'Classic Groom Tuxedo',
-    category: 'Groom Suits',
-    price: '₹9,999',
-    image: '/products/couple3.jpg',
-    href: '/collections/couple3',
-  },
-]
+import { products } from '../lib/productsData';
 
 export default function FeaturedProducts() {
+  // Get the latest 3 products by createdAt
+  const featuredProducts = [...products]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 3);
+
   return (
     <section className="w-full h-screen px-6 py-20 bg-white">
       <div className="max-w-7xl mx-auto mt-8 grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
@@ -51,11 +33,11 @@ export default function FeaturedProducts() {
         {/* Product Grid */}
         <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {featuredProducts.map((product) => (
-            <Link key={product.title} href={product.href} className="group block">
+            <Link key={product.id} href={product.href} className="group block">
               <div className="w-full overflow-hidden">
                 <Image
                   src={product.image}
-                  alt={product.title}
+                  alt={product.name}
                   width={800}
                   height={600}
                   className="w-full h-[520px] object-cover"
@@ -64,8 +46,8 @@ export default function FeaturedProducts() {
 
               <div className="mt-4">
                 <p className="text-xs uppercase text-gray-500 tracking-wider">{product.category}</p>
-                <h3 className="text-lg font-medium text-gray-900">{product.title}</h3>
-                <p className="text-base mt-1">{product.price}</p>
+                <h3 className="text-lg font-medium text-gray-900">{product.name}</h3>
+                <p className="text-base mt-1">₹ {product.price}</p>
               </div>
             </Link>
           ))}
