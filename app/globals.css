@@ -25,6 +25,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Animated border for Explore Collections button */
+.animated-border {
+  transition: none;
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* @import "tailwindcss";
 
 :root {
