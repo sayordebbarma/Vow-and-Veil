@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { Heart } from 'lucide-react'
 import { products } from '../../lib/productsData';
+import { useCart } from '../../context/CartContext';
 
 const categorySet = new Set(products.map(p => p.category))
 const filters = Array.from(categorySet)
@@ -15,6 +16,7 @@ export default function CollectionsPage() {
     const [sort, setSort] = useState('Newest')
     const [wishlist, setWishlist] = useState([])
     const router = useRouter()
+    const { addToCart } = useCart();
 
     // Filtering
     let filtered = selectedFilter === 'All'
@@ -119,7 +121,7 @@ export default function CollectionsPage() {
 
                         {/* Add to Cart Button */}
                         <div className="pb-4">
-                            <button className="w-full text-sm bg-black text-white py-2 rounded hover:bg-gray-800 transition">
+                            <button className="w-full text-sm bg-[#3c2c21] text-white py-2 hover:opacity-90 transition" onClick={() => addToCart(product)}>
                                 Add to Cart
                             </button>
                         </div>

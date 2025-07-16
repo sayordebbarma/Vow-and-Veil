@@ -3,9 +3,11 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { ShoppingBag, User } from 'lucide-react'
+import { useCart } from '../context/CartContext';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false)
+    const { cart } = useCart();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -29,7 +31,6 @@ export default function Navbar() {
                 <nav className="hidden md:flex gap-8 text-sm uppercase font-light tracking-wider">
                     <Link href="/">Home</Link>
                     <Link href="/collections">Collections</Link>
-                    <Link href="/accessories">Accessories</Link>
                     <Link href="/lookbook">Lookbook</Link>
                     <Link href="/about">About</Link>
                     <Link href="/contact">Contact</Link>
@@ -42,8 +43,12 @@ export default function Navbar() {
                     </Link>
                     <Link href="/cart" className="relative hover:text-gray-600 transition">
                         <ShoppingBag size={20} />
-                        {/* Optional cart count badge */}
-                        <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] px-1.5 py-[1px] rounded-full">2</span>
+                        {/* Cart count badge */}
+                        {cart.length > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] px-1.5 py-[1px] rounded-full">
+                                {cart.reduce((sum, item) => sum + item.quantity, 0)}
+                            </span>
+                        )}
                     </Link>
                 </div>
             </div>
@@ -84,7 +89,6 @@ export default function Navbar() {
 //         <nav className="hidden md:flex gap-8 text-sm uppercase font-light tracking-wider">
 //           <Link href="/">Home</Link>
 //           <Link href="/collections">Collections</Link>
-//           <Link href="/accessories">Accessories</Link>
 //           <Link href="/lookbook">Lookbook</Link>
 //           <Link href="/about">About</Link>
 //           <Link href="/contact">Contact</Link>
