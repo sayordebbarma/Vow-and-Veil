@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { MoveLeft, MoveRight, MoveUpRight } from 'lucide-react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import { useCart } from '../../context/CartContext';
 
 const looks = [
     {
@@ -32,6 +33,22 @@ const looks = [
 export default function LookbookPage() {
     const [index, setIndex] = useState(0)
     const current = looks[index]
+    const { addToCart } = useCart();
+    const [added, setAdded] = useState(false);
+    const addLookBtnRef = useRef(null);
+
+    const handleAddLookToCart = () => {
+        current.products.forEach(product => addToCart(product));
+        setAdded(true);
+        setTimeout(() => setAdded(false), 1500);
+    };
+
+    // Animate button on mount and on hover
+    useGSAP(() => {
+        if (addLookBtnRef.current) {
+            gsap.fromTo(addLookBtnRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' });
+        }
+    }, [index]);
 
     useGSAP(() => {
         gsap.fromTo(
@@ -61,9 +78,21 @@ export default function LookbookPage() {
 
                 {/* Product Details */}
                 <div className="w-full md:w-1/2">
-                    <h3 className="text-lg font-medium mb-6">{current.gender}</h3>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <div className="flex flex-col items-center mb-6">
+                        <div className="flex flex-row items-center justify-between gap-4 w-full mb-2">
+                            <h3 className="text-lg font-medium text-center m-0">{current.gender}</h3>
+                            <button
+                                ref={addLookBtnRef}
+                                onClick={handleAddLookToCart}
+                                className="group text-black px-0 py-2 flex items-center gap-1 transition-all duration-200 border-none bg-transparent outline-none hover:underline hover:decoration-1 hover:underline-offset-4 cursor-pointer"
+                            >
+                                Add Look to Cart
+                                <MoveUpRight size={15} className="inline transition-transform duration-200 group-hover:translate-x-1" />
+                            </button>
+                        </div>
+                        {added && <span className="text-green-600 text-sm mt-1">Look added to cart!</span>}
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 cursor-pointer">
                         {current.products.map((product) => (
                             <div key={product.id} className="text-center flex flex-col items-center">
                                 <div className="relative w-[120px] h-[160px] md:w-[200px] md:h-[300px] mx-auto">
@@ -76,9 +105,9 @@ export default function LookbookPage() {
                                 </div>
                                 <p className="text-sm mt-2 font-medium">{product.name}</p>
                                 <p className="text-xs text-gray-600">${product.price}</p>
-                                <button className="mt-2 text-xs text-black underline hover:text-gray-800">
+                                {/* <button className="mt-2 text-xs text-black underline hover:text-gray-800">
                                     View Product →
-                                </button>
+                                </button> */}
                             </div>
                         ))}
                     </div>
@@ -88,15 +117,15 @@ export default function LookbookPage() {
             <div className="flex items-center justify-between mt-8">
                 <button
                     onClick={prevSlide}
-                    className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 flex items-center gap-2"
+                    className="text-black px-4 py-2 border-2 rounded-full hover:bg-gray-400 flex items-center gap-2 cursor-pointer"
                 >
-                    <ChevronLeft size={20} /> Prev
+                    <MoveLeft size={20} /> Prev
                 </button>
                 <button
                     onClick={nextSlide}
-                    className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 flex items-center gap-2"
+                    className="text-black px-4 py-2 border-2 rounded-full hover:bg-gray-400 flex items-center gap-2 cursor-pointer"
                 >
-                    Next <ChevronRight size={20} />
+                    Next <MoveRight size={20} />
                 </button>
             </div>
         </section>
