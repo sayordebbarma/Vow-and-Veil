@@ -34,7 +34,7 @@ export default function AboutPage() {
             </div>
 
             {/* Values or Features */}
-            <div className="mb-24">
+            <div className="mb-4">
                 <h2 className="text-2xl font-semibold text-center font-serif mb-10">What We Stand For</h2>
                 <div className="grid md:grid-cols-3 gap-10 text-center">
                     <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition">

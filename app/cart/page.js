@@ -24,7 +24,7 @@ export default function CartPage() {
     const total = subtotal - discountAmount + shippingCost
 
     return (
-        <div className="p-6 md:px-16 bg-[#fffaf7] min-h-screen">
+        <div className="p-6 md:px-16 bg-[#fffaf7] min-h-screen mt-8">
             <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
 
             {/* Cart Items */}

@@ -18,7 +18,7 @@ export default function ContactPage() {
   return (
     <section className="bg-[#fffaf7] min-h-screen px-6 md:px-20 py-16 text-black">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-serif mb-2 text-center">Get in Touch</h1>
+        <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-4 text-center">Get in Touch</h1>
         <p className="text-center text-gray-600 mb-10">
           We'd love to hear from you — whether it's about collaborations, inquiries, or love stories.
         </p>

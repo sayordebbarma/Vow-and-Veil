@@ -45,7 +45,7 @@ export default function CollectionsPage() {
     return (
         <section className="px-6 md:px-16 py-12 bg-[#fffaf7] min-h-screen">
             {/* Filters and Sorting */}
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center my-8 gap-4">
                 {/* Filters */}
                 <div className="flex flex-wrap gap-3">
                     <button
