@@ -25,9 +25,9 @@ export default function CollectionsPage() {
 
     // Sorting
     if (sort === 'Price: low to high') {
-        filtered = [...filtered].sort((a, b) => a.price - b.price)
+        filtered = [...filtered].sort((a, b) => parseInt(a.price.replace(/,/g, '')) - parseInt(b.price.replace(/,/g, '')))
     } else if (sort === 'Price: high to low') {
-        filtered = [...filtered].sort((a, b) => b.price - a.price)
+        filtered = [...filtered].sort((a, b) => parseInt(b.price.replace(/,/g, '')) - parseInt(a.price.replace(/,/g, '')))
     } else if (sort === 'Best Sellers') {
         filtered = [...filtered].reverse()
     }
@@ -121,9 +121,7 @@ export default function CollectionsPage() {
 
                         {/* Add to Cart Button */}
                         <div className="pb-4">
-                            <button className="w-full text-sm bg-[#3c2c21] text-white py-2 hover:opacity-90 transition" onClick={() => addToCart(product)}>
-                                Add to Cart
-                            </button>
+                            {/* Add to Cart button removed as per new design */}
                         </div>
                     </div>
                 ))}
