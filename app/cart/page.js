@@ -1,172 +1,125 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useCart } from '../../context/CartContext';
+import { useCart } from "../../context/CartContext";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function CartPage() {
-    const { cart, updateQuantity, removeItem } = useCart();
-    const [promoCode, setPromoCode] = useState('')
-    const [discount, setDiscount] = useState(0)
-    const [shipping, setShipping] = useState('standard')
-    const [payment, setPayment] = useState('card')
+  const { cart, removeItem, updateQuantity } = useCart();
 
-    const applyPromo = () => {
-        if (promoCode === 'LOVE10') {
-            setDiscount(0.1) // 10% off
-        } else {
-            setDiscount(0)
-        }
-    }
+  const subtotal = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
-    const discountAmount = subtotal * discount
-    const shippingCost = shipping === 'express' ? 20 : 0
-    const total = subtotal - discountAmount + shippingCost
-
+  if (cart.length === 0) {
     return (
-        <div className="p-6 md:px-16 bg-[#fffaf7] min-h-screen mt-8">
-            <h1 className="text-2xl font-semibold mb-6">Your Cart</h1>
+      <div className="min-h-screen flex flex-col items-center justify-center text-center px-4">
+        <h1 className="text-2xl font-bold text-gray-900">Your cart is empty</h1>
+        <p className="text-gray-500 mt-2">
+          Looks like you haven't added anything yet.
+        </p>
+        <Link
+          href="/collections"
+          className="mt-6 bg-black text-white px-6 py-3 rounded-lg hover:opacity-90 transition"
+        >
+          Continue Shopping
+        </Link>
+      </div>
+    );
+  }
 
-            {/* Cart Items */}
-            <div className="grid gap-6 md:grid-cols-3">
-                <div className="md:col-span-2 space-y-4">
-                    {cart.map(item => (
-                        <div key={item.id} className="flex gap-4 p-4 bg-white rounded shadow">
-                            <img src={item.image} alt={item.name} className="w-24 h-28 object-cover rounded" />
-                            <div className="flex-1">
-                                <h3 className="font-medium">{item.name}</h3>
-                                <p className="text-sm text-gray-500">${item.price}</p>
-                                <div className="mt-2 flex gap-2 items-center">
-                                    <label className="text-sm">Qty:</label>
-                                    <input
-                                        type="number"
-                                        min={1}
-                                        value={item.quantity}
-                                        onChange={e => updateQuantity(item.id, +e.target.value)}
-                                        className="w-16 border rounded px-2 py-1 text-sm"
-                                    />
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => removeItem(item.id)}
-                                className="text-red-500 text-sm hover:underline"
-                            >
-                                Remove
-                            </button>
-                        </div>
-                    ))}
-                </div>
+  return (
+    <div className="max-w-7xl mx-auto px-4 pt-24 pb-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Cart Items */}
+      <div className="lg:col-span-2 space-y-6">
+        <h1 className="text-2xl font-bold text-gray-900">Shopping Cart</h1>
 
-                {/* Summary Section */}
-                <div className="p-4 bg-white rounded shadow space-y-4">
-                    <h2 className="text-lg font-medium">Summary</h2>
-
-                    <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                            <span>Subtotal</span>
-                            <span>${subtotal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Discount</span>
-                            <span>-${discountAmount.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Shipping</span>
-                            <span>${shippingCost}</span>
-                        </div>
-                        <div className="border-t pt-2 flex justify-between font-semibold">
-                            <span>Total</span>
-                            <span>${total.toFixed(2)}</span>
-                        </div>
-                    </div>
-
-                    {/* Promo Code */}
-                    <div className="space-y-2">
-                        <label htmlFor="promo" className="text-sm">Promo Code</label>
-                        <input
-                            id="promo"
-                            value={promoCode}
-                            onChange={e => setPromoCode(e.target.value)}
-                            placeholder="e.g. LOVE10"
-                            className="w-full border px-3 py-1 rounded text-sm"
-                        />
-                        <button
-                            onClick={applyPromo}
-                            className="w-full text-sm bg-black hover:bg-gray-900 text-white py-2 rounded"
-                        >
-                            Apply Promo
-                        </button>
-                    </div>
-                </div>
+        {cart.map((item) => (
+          <div
+            key={item.id}
+            className="flex gap-6 border border-gray-200 rounded-xl p-4 shadow-sm bg-white"
+          >
+            <div className="w-28 h-28 flex-shrink-0">
+              <Image
+                src={item.image}
+                alt={item.name}
+                width={112}
+                height={112}
+                className="rounded-lg object-cover w-full h-full"
+              />
             </div>
 
-            {/* Checkout Section */}
-            <div className="mt-12 grid md:grid-cols-2 gap-6">
-                {/* Shipping */}
-                <div className="p-4 bg-white rounded shadow space-y-4">
-                    <h2 className="font-medium text-lg">Shipping Method</h2>
-                    <div className="space-y-2 text-sm">
-                        <label className="flex gap-2 items-center">
-                            <input
-                                type="radio"
-                                value="standard"
-                                checked={shipping === 'standard'}
-                                onChange={() => setShipping('standard')}
-                            />
-                            Standard Shipping (Free)
-                        </label>
-                        <label className="flex gap-2 items-center">
-                            <input
-                                type="radio"
-                                value="express"
-                                checked={shipping === 'express'}
-                                onChange={() => setShipping('express')}
-                            />
-                            Express Shipping ($20)
-                        </label>
-                    </div>
-                </div>
+            <div className="flex flex-col justify-between flex-1">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {item.name}
+                </h2>
+                <p className="text-sm text-gray-500">
+                  {item.category}
+                  {item.isCouple && item.sizes ? (
+                    <>
+                      {" "}/ Bride: {item.sizes.bride}, Groom: {item.sizes.groom}
+                    </>
+                  ) : item.size ? (
+                    <> / Size: {item.size}</>
+                  ) : null}
+                </p>
+                <p className="mt-1 font-semibold text-gray-800">
+                  ₹ {item.price}
+                </p>
+              </div>
 
-                {/* Payment */}
-                <div className="p-4 bg-white rounded shadow space-y-4">
-                    <h2 className="font-medium text-lg">Payment Method</h2>
-                    <div className="space-y-2 text-sm">
-                        <label className="flex gap-2 items-center">
-                            <input
-                                type="radio"
-                                value="card"
-                                checked={payment === 'card'}
-                                onChange={() => setPayment('card')}
-                            />
-                            Credit / Debit Card
-                        </label>
-                        <label className="flex gap-2 items-center">
-                            <input
-                                type="radio"
-                                value="paypal"
-                                checked={payment === 'paypal'}
-                                onChange={() => setPayment('paypal')}
-                            />
-                            PayPal
-                        </label>
-                        <label className="flex gap-2 items-center">
-                            <input
-                                type="radio"
-                                value="cod"
-                                checked={payment === 'cod'}
-                                onChange={() => setPayment('cod')}
-                            />
-                            Cash on Delivery
-                        </label>
-                    </div>
+              <div className="flex items-center gap-4 mt-2">
+                <div className="flex items-center border rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    className="px-3 py-1 hover:bg-gray-100"
+                  >
+                    -
+                  </button>
+                  <span className="px-4">{item.quantity}</span>
+                  <button
+                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                    className="px-3 py-1 hover:bg-gray-100"
+                  >
+                    +
+                  </button>
                 </div>
-            </div>
-
-            <div className="mt-8 text-right">
-                <button className="bg-black hover:bg-gray-900 text-white px-6 py-3 rounded text-sm">
-                    Proceed to Checkout
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="text-red-500 hover:underline text-sm  cursor-pointer"
+                >
+                  Remove
                 </button>
+              </div>
             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Order Summary */}
+      <div className="border border-gray-200 rounded-xl p-6 shadow-sm bg-white h-fit">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
+
+        <div className="flex justify-between text-gray-700 mb-2">
+          <span>Subtotal</span>
+          <span>₹ {subtotal}</span>
         </div>
-    )
+        <div className="flex justify-between text-gray-700 mb-6">
+          <span>Shipping</span>
+          <span className="text-green-600">Free</span>
+        </div>
+
+        <div className="flex justify-between font-bold text-lg border-t border-gray-200 pt-4 mb-6">
+          <span>Total</span>
+          <span>₹ {subtotal}</span>
+        </div>
+
+        <button className="w-full bg-black text-white py-3 rounded-lg cursor-pointer hover:opacity-90 transition">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  );
 }
