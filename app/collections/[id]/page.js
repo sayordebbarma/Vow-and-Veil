@@ -15,6 +15,11 @@ export default function ProductPage() {
   const [wishlist, setWishlist] = useState([]);
   const [mainImage, setMainImage] = useState(product?.image);
 
+  // Size states
+  const [brideSize, setBrideSize] = useState(null);
+  const [groomSize, setGroomSize] = useState(null);
+  const [singleSize, setSingleSize] = useState(null);
+
   if (!product) {
     return <div className="p-6">Product not found.</div>;
   }
@@ -24,6 +29,24 @@ export default function ProductPage() {
       prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
     );
   };
+
+  const handleAddToCart = () => {
+    if (product.category === "Couple Sets") {
+      if (!brideSize || !groomSize) {
+        alert("Please select sizes for both partners.");
+        return;
+      }
+      addToCart({ ...product, sizes: { bride: brideSize, groom: groomSize } });
+    } else {
+      if (!singleSize) {
+        alert("Please select a size.");
+        return;
+      }
+      addToCart({ ...product, size: singleSize });
+    }
+  };
+
+  const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
   return (
     <div className="flex flex-col lg:flex-row max-w-7xl mx-auto px-4 pt-24 pb-10 gap-12">
@@ -43,7 +66,7 @@ export default function ProductPage() {
             <div
               key={idx}
               onClick={() => setMainImage(img)}
-              className="w-full h-100"
+              className="w-full h-100 cursor-pointer"
             >
               <Image
                 src={img}
@@ -78,33 +101,76 @@ export default function ProductPage() {
         <p className="text-xl font-semibold text-gray-800">₹ {product.price}</p>
         <p className="mt-8 text-sm text-gray-600">Category: {product.category}</p>
 
-        <div className="flex gap-2 flex-wrap my-4">
-          {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
-            <button
-              key={size}
-              className="px-3 py-1 border rounded hover:bg-[#f5f5f5] cursor-pointer"
-            >
-              {size}
-            </button>
-          ))}
-        </div>
+        {/* Size selection logic */}
+        {product.category === "Couple Sets" ? (
+          <div className="space-y-4 my-4">
+            <div>
+              <p className="font-semibold mb-2">Bride Size:</p>
+              <div className="flex gap-2 flex-wrap">
+                {sizeOptions.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => setBrideSize(size)}
+                    className={`px-3 py-1 border rounded cursor-pointer 
+                      ${brideSize === size ? 'bg-black text-white' : 'hover:bg-[#f5f5f5]'}`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="font-semibold mb-2">Groom Size:</p>
+              <div className="flex gap-2 flex-wrap">
+                {sizeOptions.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => setGroomSize(size)}
+                    className={`px-3 py-1 border rounded cursor-pointer 
+                      ${groomSize === size ? 'bg-black text-white' : 'hover:bg-[#f5f5f5]'}`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p className="font-semibold mb-2">Size:</p>
+            <div className="flex gap-2 flex-wrap mb-4">
+              {sizeOptions.map(size => (
+                <button
+                  key={size}
+                  onClick={() => setSingleSize(size)}
+                  className={`px-3 py-1 border rounded cursor-pointer 
+                  ${singleSize === size ? 'bg-black text-white' : 'hover:bg-[#f5f5f5]'}`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-4">
           <button
-            onClick={() => addToCart(product)}
+            onClick={handleAddToCart}
             className="w-full bg-black text-white px-6 py-3 hover:opacity-90 transition cursor-pointer"
           >
             Add to Cart
           </button>
         </div>
 
+        {/* Description */}
         <div className="mt-8">
           <h2 className="font-bold text-black text-lg mb-2">Description</h2>
           <p className="text-sm text-gray-700 leading-relaxed">
-            A reliable bodyguard for your skin, with secret uses. This lightweight, long lasting SPF50+ protection will save you from the harshest midday sun, while also protecting dry skin, discolored tattoos, darker scars, gel manicure UV exposures and more.
+            {product.description}
           </p>
         </div>
 
+        {/* Extra details */}
         <div className="mt-8 border-t pt-4 space-y-4">
           {['Fit & Features', 'Fabric', 'Materials & Care', 'Free Shipping & Exchanges'].map(
             (section, idx) => (
